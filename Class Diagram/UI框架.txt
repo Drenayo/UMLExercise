@@ -1,0 +1,102 @@
+
+@startuml
+title UI框架 UML类图练习
+class BaseUIForm {
+    + currentUIType:UIType
+    + virtual Display():void
+    + virtual Hiding():void
+    + virtual Redisplay():void
+    + virtual Freeze():void
+    # SettingUIFormTypeByEditors():void
+    # SettingUIFormType(UIFormType,UIFormShowMode,UIFormLucenyType):void
+    # RegisterButtonEvent(buttonName:string,buttonEvent:UnityAction):void
+    # OpenUIForm(uiFromName:string):void
+    # CloseUIForm(uiFromName:string):void
+    # SendMessage(msgTye:string,msgName:string,msgContent:object):void
+    # ReceiveMessage(msgTye:string,handler:MessageCenter.DelMessageDelivery):void
+}
+class UIManager {
+    + {static} GetInstance():UIManager
+    # dicFormPaths:Dictionary<string,string>
+    - dicAllUIForms:Dictionary<string,BaseUIForm>
+    - dicCurrentShowUIForms:Dictionary<string,BaseUIForm>
+    - stackCurrentUIForms:Stack<BaseUIForm>
+    - traCanvas:Transform
+    - traNornal:Transform
+    - traFixed:Transform
+    - traPopUp:Transform
+    - traUIScripts:Transform
+    + ShowUIForms(uiFormName:string):void
+    + HideUIForms(uiFormName:string):void
+    - InitRootCanvasLoding():void
+    - LoadFormsToAllUIFormsCatch(uiFormName:string):BaseUIForm
+    - LoadUIForm(uiFormName:string):BaseUIForm
+    - OpenUIForms(uiFormName:string):void
+    - CloaseUIForms(uiFormName:string):void
+    - PushUIFormToStack(uiFormName:string):void
+    - PopUIFormToStack(uiFormName:string):void
+    - OpenUIFormAndHideOther(uiFormName:string):void
+    - CloaseUIFormAndShowOther(uiFormName:string):void
+    - ClearStackArray():bool
+    - InitUIFormsPathData():void
+}
+class UIType {
+    + IsClearStack:bool = false;
+    + UIForm_Type:UIFormType = UIFormType.Normal
+    + UIForm_ShowMode:UIFormShowMode = UIFormShowMode.Normal
+    + UIForm_LucenyType:UIFormLucenyType = UIFormLucenyType.Lucency
+}
+together 枚举 {
+    enum UIFormType
+    {
+        Normal
+        Fixed
+        PopUp
+    }
+    enum UIFormShowMode
+    {
+        Normal
+        ReverseChange
+        HideOther
+    }
+    enum UIFormLucenyType
+    {
+        Lucency
+        Translucence
+        ImPenetrable
+        Pentrate
+    }
+}
+class MessageCenter {
+    + delegate DelMessageDelivery:KeyValueUpdate kv
+    + {static} dicMessage:Dictionary<string,DelMessageDelivery>
+    + {static} AddMsgListener(messageType:string,handler:DelMessageDelivery):void
+    + {static} RemoveMsgListener(messageType:string,handler:DelMessageDelivery):void
+    + {static} ClearAllMsgListener():void
+    + {static} SendMessage(messageType:string,kv:KeyValueUpdate):void
+}
+class KeyValueUpdate {
+    - key:string
+    - value:object
+    + Key:string
+    + Value:object
+    + KeyValueUpdate(key:string,value:object)
+}
+
+BaseUIForm --> UIType
+BaseUIForm ..> UIFormType
+BaseUIForm ..> UIFormShowMode
+BaseUIForm ..> UIFormLucenyType
+BaseUIForm ..> MessageCenter
+UIManager o-- BaseUIForm
+UIManager ..> BaseUIForm
+MessageCenter --> KeyValueUpdate
+MessageCenter ..> KeyValueUpdate
+MessageCenter --o MessageCenter
+UIType --> UIFormType
+UIType --> UIFormShowMode
+UIType --> UIFormLucenyType
+
+
+
+@enduml

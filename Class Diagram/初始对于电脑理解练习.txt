@@ -1,0 +1,50 @@
+@startuml
+title 类图练习与梳理
+abstract class 处理器{
+    {abstract} 计算():void
+}
+abstract class 显卡{
+    {abstract} 显示():void   
+}
+class AMD处理器{
+    + 计算():void
+}
+class 英特尔处理器{
+    + 计算():void
+}
+class AMD显卡{
+    + 显示():void
+}
+class 英伟达显卡{
+    + 显示():void
+}
+interface USB{
+    连接():void
+}
+class 鼠标{
+    + 连接():void
+    + 点击():void
+}
+class 键盘{
+    + 连接():void
+    + 按下():void
+}
+class 电脑
+{
+    + 价格:Int
+    + 电脑处理器:处理器
+    + 电脑显卡:显卡
+    + 连接外设(USB 外设)
+    + 开机():void
+    + 关机():void
+}
+处理器 <|-- AMD处理器
+处理器 <|-- 英特尔处理器
+显卡 <|-- 英伟达显卡
+显卡 <|-- AMD显卡
+USB <|.. 鼠标
+USB <|.. 键盘
+电脑 --> 处理器
+电脑 --> 显卡
+电脑 ..> USB
+@enduml

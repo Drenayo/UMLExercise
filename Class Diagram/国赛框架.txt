@@ -1,0 +1,97 @@
+@startuml
+namespace Frame {
+    class MonoBehaviour 
+    {
+        + 重写该类，后续挂载Mono类
+    }
+    class Mono 
+    {
+        # 节点管理器:NodeManager
+        # 事件管理器:EventManager
+        # 步骤管理器:StepManager
+        # 计时器管理器:TimerManager
+        # Init()
+        # SetActive(gameObj:GameObject, isActive:bool, delayTimes:float=0)
+        # FindGameObject(objName:string, parent:Transform=null)
+    }
+    class NodeManager
+    {
+        + {static} Instance:NodeManager
+        
+        + 位置节点1:Transform
+        + 位置节点2:Transform
+        + 位置节点3:Transform
+        + 位置切换(originTran:Transform, targetPos:Vector3, isWolrd:bool, delayTimes:float=0)
+        + 旋转切换(originTran:Transform, targetRot:Quaternion, isWolrd:bool, delayTimes:float=0)
+    }
+    class EventManager 
+    {
+        + {static} instance:EventManager
+        + {static} GetInstance():EventManager
+        - eventMap:Dictionary<string, processEvent>
+        - delegate processEvent:(obj:GameObject, param:int)
+        + 注册(name:string,func:processEvent)
+        + 注销(name:string,func:processEvent)
+        + 触发(name:string,obj:GameObject,param:int)
+    }
+    class StepManager 
+    {
+        + {static} Instance:StepManager
+        + 最开始执行的步骤:int
+        - 步骤列表:List<StepBase>
+        + 执行开始步骤()
+        + GetStep(index:int):StepBase
+    }
+    class TimerManager
+    {
+        + {static} Instance:TimerManager
+        + 开启计时器(计时器标志:string,计时时间:float,触发方法:EventManager.processEvent)
+        + 清除所有计时器()
+    }
+    class StepBase 
+    {
+        # stepIndex:int
+        # stepName:string
+        - nextStepIndex:int
+        + virtual 开始步骤()
+        + virtual 关闭步骤()
+        # 顺序执行(delayTimes:float=0)
+        # 指定执行(nextIndex:int, delayTimes:float=0)
+    }
+Mono --|> MonoBehaviour
+Mono --> NodeManager
+Mono --> EventManager
+Mono --> StepManager
+Mono --> TimerManager
+Mono <|-- TimerManager
+Mono <|-- NodeManager
+Mono <|-- StepManager
+Mono <|-- StepBase
+
+StepManager o-- StepBase
+StepManager ..> StepBase
+
+TimerManager ..> EventManager
+}
+newpage
+namespace Game {
+    class 步骤一 
+    {
+        - 开始步骤()
+        - 关闭步骤()
+    }
+    class 步骤二
+    {
+        - 开始步骤()
+        - 关闭步骤()
+    }
+    class 步骤三
+    {
+        - 开始步骤()
+        - 关闭步骤()
+    }
+步骤一 --|> StepBase
+步骤二 --|> StepBase
+步骤三 --|> StepBase
+}
+@enduml

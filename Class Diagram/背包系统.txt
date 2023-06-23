@@ -1,0 +1,49 @@
+
+@startuml
+
+class ScriptableObject
+{
+    
+}
+class Item
+{   
+    + 物品类型:ItemType
+    + 物品名字:string
+    + 物品数量:int
+    + 物品图片:Sprite
+    + 预制体:GameObject
+}
+enum ItemType
+{
+    Default 默认
+    ToolOrWeapon 工具
+    Placeable 可放置
+    Consumeable 可消耗
+}
+
+class ItemManager
+{
+    + {static} Instance:ItemManager
+    + 所有物品列表:List<Item>
+    + 使用物品(slot:ItemSlot)
+    + 消耗物品(slot:ItemSlot)
+    + 装备物品(slot:ItemSlot)
+    + 放置物品(slot:ItemSlot)
+    + 默认使用物品(slot:ItemSlot)
+    + GetItemByIndex(index:int):Item
+    + GetItemByName(name:string):Item
+    + GetItemIndex(item:Item):int
+}
+class ItemSlot
+{
+}
+
+
+Item --|> ScriptableObject
+Item ..> ItemType
+ItemManager --o Item
+ItemManager ..> Item
+
+
+
+@enduml
