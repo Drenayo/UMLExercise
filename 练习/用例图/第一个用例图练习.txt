@@ -1,0 +1,12 @@
+@startuml
+title 用例图练习
+
+usecase 手机控制
+usecase 声音控制
+usecase 遥控器控制
+
+用户 --> 手机控制:使用
+用户 --> 声音控制:说话
+用户 --> 遥控器控制:使用
+
+@enduml

@@ -1,33 +1,7 @@
 @startuml
 
-
-package 交互者 {
-    class Interactor
-    {
-        交互者挂载
-        --
-        + 背包管理:ItemContatiner
-        + 放置物品被实例化位置:Vector3
-        - 当前可交互目标:InteractionTarget
-
-        - 可交互对象射线检测处理()
-        - 目标位置是否在交互范围(targetPos:Vector3):bool
-        + 添加到背包(item:Item, gameObj:GameObject):bool
-    }
-
-    class InteractionTarget
-    {
-        可交互目标
-        --
-        ~ interactable:IInteractable
-        ~ gameObject:GameObject
-    }
-}
-
 package 交互物品
 {
-
-
     interface IInteractable {
     可交互对象基类
     --
@@ -93,7 +67,6 @@ package 交互物品
 
 package 管理
 {
-
     class ItemManager
     {
         + {static} Instance:ItemManager
@@ -111,7 +84,39 @@ package 管理
     class ItemContatiner {
         背包容器
         --
-        + 
+        + 交互者:Interactor
+        # 背包标题:string
+        # UIToggleKey:KeyCode
+        - 菜单配置:SlotOptions[]
+        + 丢弃物品是否实例化:bool
+        # slots:ItemSlot[]
+        # mainContainerUI:Transform
+        # 物品信息UI面板预制体:GameObject
+        # 物品右键选项预制体:GameObject
+        - slotOptionButtonInfoList:List<SlotOptionButtonInfo>
+
+
+        + AddItem(item:Item):bool
+        + 是否存在(item:Item):bool
+        + 数量是否正确(item:Item, amount:int):bool
+        + 保存数据(id:string)
+        + 加载数据(id:string)
+        + 删除数据(id:string)
+        # virtual 得到存档路径(id:string)
+        # virtual 初始化()
+        # 初始化主面板()
+        # virtual 创建菜单列表(config:SlotOptions[],交互者:Interactor)
+        # 物品插槽UI点击(slot:ItemSlot, 交互者:Interactor)
+        # ToggleUI()
+
+        - 打开物品选项菜单()
+        - 关闭物品选项菜单()
+        - 点击物品选项菜单_删除物品(slot ItemSlot,交互者:Interactor)
+        - 点击物品选项菜单_使用物品(slot ItemSlot,交互者:Interactor)
+        - 点击物品选项菜单_批量删除物品(slot ItemSlot,交互者:Interactor)
+        - 点击物品选项菜单_物品信息(slot ItemSlot,交互者:Interactor)
+        - OnSlotButtonEventFinished(slot ItemSlot)
+
 
     }
 
@@ -119,12 +124,22 @@ package 管理
         宝箱容器，继承背包容器
     }
 
-}
+    enum SlotOptions
+    {
+        Use,//使用这个物品
+        Remove,//删除一个物品
+        BulkRemove,//删除此项全部物品
+        ItemInfo,//物品介绍
+        TransferToInventory
+    }
 
-
-package 插槽
-{
-    class ItemSlot
+    class SlotOptionButtonInfo {
+        ~ optionBtn:Button
+        ~ onButtonClicked:Action<ItemSlot,Interactor>
+        ~ onButtonEventFinished:Action<ItemSlot>
+        ~ 更新信息(slot:ItemSlot,交互者:Interactor)
+    }
+        class ItemSlot
     {
         UI插槽,所有操作方法都是
         在操作同一个格子
@@ -151,8 +166,28 @@ package 插槽
         - mySlot : ItemSlot
 
     }
-}
 
+    class Interactor
+    {
+        交互者挂载
+        --
+        + 背包管理:ItemContatiner
+        + 放置物品被实例化位置:Vector3
+        - 当前可交互目标:InteractionTarget
+
+        - 可交互对象射线检测处理()
+        - 目标位置是否在交互范围(targetPos:Vector3):bool
+        + 添加到背包(item:Item, gameObj:GameObject):bool
+    }
+
+    class InteractionTarget
+    {
+        可交互目标
+        --
+        ~ interactable:IInteractable
+        ~ gameObject:GameObject
+    }
+}
 
 
 Item --|> ScriptableObject
@@ -162,6 +197,13 @@ ItemManager ..> Item
 ItemManager ..> ItemSlot
 
 ItemContatiner <|-- ExternalItemContainer
+ItemContatiner --> Interactor
+ItemContatiner o-- SlotOptions
+ItemContatiner o-- SlotOptionButtonInfo
+ItemContatiner ..> Item
+ItemContatiner ..> Interactor
+ItemContatiner ..> ItemSlot
+
 IInteractable <|.. InstantHarvest
 IInteractable <|.. Harvestable
 IInteractable ..> Interactor
@@ -184,5 +226,4 @@ InstantHarvest ..> Item
 Harvestable ..> Interactor
 Harvestable o-- HarvestDrop
 HarvestDrop -->Item
-
 @enduml
