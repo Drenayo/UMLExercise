@@ -167,6 +167,13 @@ package 管理
 
     }
 
+
+
+    class sda {
+        disabledsa
+        disable 
+    }
+
     class Interactor
     {
         交互者挂载
@@ -189,6 +196,7 @@ package 管理
     }
 }
 
+sda --> ItemContatiner
 
 Item --|> ScriptableObject
 Item ..> ItemType

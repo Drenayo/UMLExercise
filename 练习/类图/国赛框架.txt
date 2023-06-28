@@ -73,8 +73,8 @@ StepManager ..> StepBase
 
 TimerManager ..> EventManager
 }
-newpage
-namespace Game {
+
+namespace 实际游戏逻辑 {
     class 步骤一 
     {
         - 开始步骤()
