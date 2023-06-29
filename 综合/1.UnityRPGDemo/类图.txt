@@ -1,0 +1,102 @@
+@startuml
+
+package UI <<Rectangle>>
+{
+    class Login
+    {
+        - 姓名输入框
+        - 密码输入框
+        - 按钮
+
+        - 注册按钮事件
+        - 按钮事件触发
+        --
+        连接服务器，等待服务器返回数据，
+        暂时用假数据，直接进入选人
+    }
+
+    class SelectRoleInfo
+    {
+        角色名字，角色模型的资源路径
+        --
+        + Name:string
+        + ModelResPath:string
+    }
+    class SelectRole
+    {
+        动态获取所有选人界面组件
+        然后初始化角色列表到UI
+    }
+}
+
+package 配置表 <<Rectangle>>
+{
+    class ConfigTable 
+    {
+        --注释--
+        开发期读 project/Config的cvs, 转流
+        打包读，Aesste/Congfig的cvs.bytes，转流读
+        打包之前需要把cvs,加上bytes后缀，在读取
+        .数据保护
+        .加载效率
+        
+    }
+
+    class RoleTable extends ConfigTable
+    {
+
+    }
+
+    class NPCTable extends ConfigTable
+    {
+
+    }
+}
+
+package Logic <<Rectangle>>
+{
+    class 单例 {}
+
+    class UnityExtern
+    {
+        public static T Find<T>(this GameObject parent,string path);
+    }
+
+    class SetUp 
+    {
+        游戏通过一个GameObject和一个SetUp脚本来启动
+    }
+
+    class GameMgr
+    {
+        单例，全局唯一性
+
+        逻辑引擎
+
+        逻辑的初始化放进逻辑引擎的初始化
+        逻辑引擎的初始化由GameMgr统一管理，GameMgr的初始化由游戏引擎的Awake来管理
+    }
+
+
+
+    class ResMgr
+    {
+        资源管理加载
+        --
+        封装实例化
+            资源管理加载()
+        --
+
+    }
+    class UserData
+    {
+        + static AllRole:List<SelectRoleInfo>
+
+        + UserData()
+        --
+        构造用来添加SelectRoleInfo在List中
+    }
+}
+
+left to right direction
+@enduml
