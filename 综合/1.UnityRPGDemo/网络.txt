@@ -1,0 +1,99 @@
+@startuml
+
+package 笔记 <<Rectangle>>
+{
+    class Note
+    {
+        服务器脚本应该单独建立文件夹 Server
+        客户端脚本新建在Net文件夹里
+    }
+}
+
+package 网络 <<Rectangle>>
+{
+    class 单例 {}
+
+    interface IClient
+    {
+        发送消息(Cmd cmd)
+        接收消息(Cmd cmd)
+    }
+
+    interface IServer
+    {
+        连接服务器(IClient client)
+        发送消息(Cmd cmd)
+        接收消息(Cmd cmd)
+    }
+
+    class Server
+    {
+        服务器，对于本地模拟来说，一个
+        服务器只需要对应一个客户端即可
+        ---
+        - IClient client
+        - Dictionary<Type,Action<Cmd>> parser 消息解析器
+        + Player curPlayer
+        ---
+        + 连接服务器(IClient client)
+        + 发送消息(Cmd cmd)
+        + 接收消息(Cmd cmd)
+        + 分发消息(Cmd cmd)
+
+    }
+
+    class Net
+    {
+        客户端访问服务器
+        ---
+        + IServer server
+        ---
+        + 连接服务器(Action successCallBack,Action failedCallBack)
+        + 发送消息(Cmd cmd)
+        + 接收消息(Cmd cmd)
+    }
+
+    
+    class Cmd
+    {
+        消息基类
+        ---
+    }
+
+    class LoginCmd extends Cmd
+    {
+        登录消息
+        ---
+        + string Account
+        + string Password
+    }
+
+    class CmdParser <<(S,#555fff)>>
+    {
+        暂时消息解析类
+        ---
+        + {static} void LoginCmdParser(Cmd cmd)
+    }
+
+    class Player 
+    {
+        
+    }
+
+    Net --> IServer
+    Server --> IClient
+
+    Server --|> 单例
+    Net --|> 单例
+
+    Server ..|> IServer
+    Net ..|> IClient
+    IClient ..> Cmd
+    IServer ..> Cmd
+    Net ..> Cmd
+    Server ..> Cmd
+    CmdParser ..> Cmd
+}
+
+left to right direction
+@enduml
