@@ -97,3 +97,5 @@ package 网络 <<Rectangle>>
 
 left to right direction
 @enduml
+
+Unity的客户端与服务端的练习代码，本项目为客户端
