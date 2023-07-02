@@ -1,0 +1,29 @@
+@startuml
+package 数据库 <<Rectangle>>
+{
+    class Note
+    {
+        数据库需要继承IDB，方便以后更换数据库
+
+        // 有的数据库只存放一个ID，还有一个转化后的Json字符串，不需要拆开存储了，这样就是非SQL型存储，不需要用到任何SQL语句
+    }
+
+    interface IDataBase
+    {
+        数据库接口
+        --
+        加载数据库()
+        关闭数据库()
+        读取数据()
+    }
+
+    class SQLiteMgr implements IDataBase
+    {
+        
+    }
+    
+
+}
+
+left to right direction
+@enduml
