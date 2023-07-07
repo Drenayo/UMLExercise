@@ -1,0 +1,55 @@
+@startuml
+
+package 系统 <<Rectangle>>
+{
+    class 单例 {}
+
+    class UnityExtern
+    {
+        public static T Find<T>(this GameObject parent,string path);
+    }
+
+    class SetUp 
+    {
+        游戏通过一个GameObject和一个SetUp脚本来启动
+    }
+
+    class GameMgr
+    {
+        单例，全局唯一性
+
+        逻辑引擎
+
+        逻辑的初始化放进逻辑引擎的初始化
+        逻辑引擎的初始化由GameMgr统一管理，GameMgr的初始化由游戏引擎的Awake来管理
+    }
+
+
+
+    class ResMgr
+    {
+        资源管理加载
+        --
+        封装实例化
+            资源管理加载()
+        --
+
+    }
+    class UserData
+    {
+        + static AllRole:List<SelectRoleInfo>
+
+        + UserData()
+        --
+        构造用来添加SelectRoleInfo在List中
+    }
+
+    class QuickCoroutine
+    {
+        // 快速协程，不受到Mono是否挂载限制
+        
+    }
+}
+
+left to right direction
+@enduml
