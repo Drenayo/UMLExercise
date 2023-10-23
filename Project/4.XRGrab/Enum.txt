@@ -1,0 +1,70 @@
+@startuml
+
+namespace XRGrabSystem {
+
+    class MonoBehaviour 
+    {
+        + 重写该类，后续挂载Mono类
+    }
+
+    class XRGrabController extends MonoBehaviour
+    {
+        + HandType : handType
+        + Transform : rayOrigin
+        + Transform : attach
+        + bool : isGrabbing
+        + GameObject : grabItem
+
+        + OnGripButtonDown()
+        + OnGripButtonUp()
+        + 设置GrabItem位置到Attach()
+        + 判断被拾取物体是否与手柄碰撞体触发()
+        + 手柄拿取物品的回调，返回拿取的物品()
+    }
+
+    class XRBaseGrabItem extends MonoBehaviour
+    {
+        + XRGrabItemType : grabItemType
+
+        + 物品被拾取()
+        + 物品被释放()
+        + 物品是否可以被释放（）
+    }
+
+    class 单目标交互XRGrabbableItem extends XRBaseGrabItem
+    {
+        + Collider 目标点Collider
+
+        + 设置目标点
+        + 物品被拾取()
+        + 物品被释放()
+        + 物品是否可以被释放（）当XRControll按键再次按下的时候，调用当前物品的此方法，判断当前物品是否在自己的目标点内，是则bool true,然后直接释放就行了
+
+        + 物品被拾取时生成一个半透明物品(Transform 生成位置) 要有一个目标点的类
+        + 子类分别是单目标，多目标，与目标点交互()
+    }
+
+    class 多目标交互XRGrabbableItem extends XRBaseGrabItem
+    {
+        + Collider 目标点List
+
+        有一个等待事件，开发者来扩充
+    }
+
+    enum HandType
+    {
+        Right
+        Left
+    }
+
+    enum XRGrabItemType
+    {
+        待抓握
+        左手抓握
+        右手抓握
+        或 待激活
+        或 物品的拾取类型？
+    }
+}
+
+@enduml
