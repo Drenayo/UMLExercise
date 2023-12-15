@@ -1,20 +1,7 @@
 @startuml
-package 配置表 <<Rectangle>>
+package 系统 <<Rectangle>>
 {
-    class ConfigTable 
-    {
-        
-    }
-
-    class RoleTable extends ConfigTable
-    {
-
-    }
-
-    class NPCTable extends ConfigTable
-    {
-
-    }
+    
 }
 
 left to right direction
