@@ -1,0 +1,148 @@
+using 经济系统;
+
+@startuml
+
+skinparam backgroundColor White 
+skinparam defaultFontName Consolas
+skinparam defaultFontSize 14
+skinparam roundCorner 10
+
+namespace 经济系统 {
+    class GameLoop extends Mono
+    {
+        + float callInterval
+        + int totalDaysElapsed
+    }
+
+    class Unit extends Mono
+    {
+        单位基类
+        --
+        + void Loop()
+    }
+
+    class MaterialUnit extends Unit
+    {
+        材料单位(物品类和物品数据类混用)
+        --
+        ' 该材料产出的产出任务
+        + ProductionTask productionTask
+
+        + float price
+        + float total
+
+    }
+
+    class RawMaterialUnit extends MaterialUnit
+    {
+        原材料单位
+    }
+
+    class ProductUnit extends MaterialUnit
+    {
+        产品单位
+    }
+
+    class ProductionUnit extends Unit
+    {
+        生产建筑单位
+        --
+        ' 雇佣的NPC
+        + List<NPCUnit> NPCUnits
+        ' 可选生产产品
+        + List<MaterialUnit> materialUnits
+        ' 当前生产产品
+        + MaterialUnit currMaterialUnit
+        ' 存储的产品（已生产的）
+        ' + List<MaterialUnit> storageMaterialUnits
+        ' 存储的原材料（用于生产的）
+        ' + List<RawMaterialUnit> storageRawMaterialUnits
+
+        ' 售出商品
+        + bool SellGoods()
+        ' 获取原材料
+        + bool ProcureMaterials()
+        ' 生产
+        + bool Produce()
+    }
+
+    class NPCUnit extends Unit
+    {
+        
+    }
+
+    struct ProductionTask
+    {
+        生产任务
+        --
+        + List<NeededMaterial> inputMaterialUnits
+        + NeededMaterial outputMaterialUnits
+        + int employeeNumber
+
+        ' 调用生产任务的生产函数，本质就是加减对应材料
+        + bool Produce()
+    }
+
+    struct NeededMaterial
+    {
+        所需材料
+        --
+        + float price
+        + bool isEnough
+        + MaterialUnit materialUnit
+        + int neededMaterials
+
+        + bool Produce()
+    }
+
+
+    
+
+    class EconomicManager
+    {
+        经济数据管理器（为计算提供数据）
+        --
+        + {static} Instance:MaterialManager
+
+        + List<ProductionUnit> allProductionUnits;
+        + List<MaterialUnit> allMaterialUnits;
+    }
+
+    class EconomySystem 
+    {
+        经济系统 模块输入输出
+        --
+        + {static} Instance:EconomySystem
+
+        ' 调正经济
+        + void AdjustEconomy()
+
+        ' 调整价格
+        - void AdjustPrice(MaterialUnit materialUnit)
+
+        ' 计算需求量
+        - float CalculateDemand(int id)
+
+        ' 计算建筑的最大利润的任务 参数：生产建筑
+        - MaterialUnit CalculateCost(ProductionUnit production)
+    }
+
+' 链接规则
+ProductionTask *-- NeededMaterial
+NeededMaterial --> MaterialUnit
+
+ProductionTask --> MaterialUnit 
+
+ProductionUnit o-- NPCUnit
+ProductionUnit o-- MaterialUnit
+ProductionUnit --> MaterialUnit
+ProductionUnit ..> RawMaterialUnit
+
+
+EconomySystem ..> MaterialUnit
+EconomySystem ..> ProductionUnit
+
+
+}
+
+@endumlSZ
