@@ -1,8 +1,0 @@
-@startuml
-package 系统 <<Rectangle>>
-{
-    
-}
-
-left to right direction
-@enduml
