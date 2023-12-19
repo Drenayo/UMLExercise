@@ -5,6 +5,14 @@ skinparam defaultFontName Consolas
 skinparam defaultFontSize 14
 skinparam roundCorner 10
 
+namespace 数据管理 {
+
+    
+
+}
+
+
+
 namespace 经济系统 {
     class GameLoop extends Mono
     {
@@ -126,19 +134,7 @@ namespace 经济系统 {
     }
 
 ' 链接规则
-ProductionTask *-- NeededMaterial
-NeededMaterial --> MaterialUnit
 
-ProductionTask --> MaterialUnit 
-
-ProductionUnit o-- NPCUnit
-ProductionUnit o-- MaterialUnit
-ProductionUnit --> MaterialUnit
-ProductionUnit ..> RawMaterialUnit
-
-
-EconomySystem ..> MaterialUnit
-EconomySystem ..> ProductionUnit
 
 
 }
