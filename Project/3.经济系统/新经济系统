@@ -7,22 +7,28 @@ skinparam roundCorner 10
 
 namespace 数据管理 {
 
-    资源数据类
-    建筑数据类
+    '资源数据类
+    '建筑数据类
 
-    生成管理类
+    '生成管理类
 
-    资源类
-    建筑类
+    '资源类
+    '建筑类
 
 
-    系统接口，获取建筑列表、获取材料列表的接口
+    '系统接口，获取建筑列表、获取材料列表的接口
 
+
+    ' 市场
 }
 
 
 
+
+
 namespace 经济系统 {
+
+
     class GameLoop extends Mono
     {
         + float callInterval
