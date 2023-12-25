@@ -1,0 +1,28 @@
+@startuml
+skinparam backgroundColor White 
+skinparam defaultFontName Consolas
+skinparam defaultFontSize 14
+skinparam roundCorner 10
+
+namespace 工具合集 {
+分类：
+    动画调试
+    音频处理
+    文本处理
+    场景与图谱快捷切换
+    各类节点处理工具
+
+}
+
+namespace DevCompendium {
+
+    static class GameLoop
+    {
+        + float callInterval
+        + int totalDaysElapsed
+    }
+
+' 链接规则
+}
+
+@endumlSZ
