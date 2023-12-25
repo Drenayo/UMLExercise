@@ -5,7 +5,30 @@ skinparam defaultFontName Consolas
 skinparam defaultFontSize 14
 skinparam roundCorner 10
 
+namespace 数据管理 {
+
+    '资源数据类
+    '建筑数据类
+
+    '生成管理类
+
+    '资源类
+    '建筑类
+
+
+    '系统接口，获取建筑列表、获取材料列表的接口
+
+
+    ' 市场
+}
+
+
+
+
+
 namespace 经济系统 {
+
+
     class GameLoop extends Mono
     {
         + float callInterval
@@ -126,19 +149,7 @@ namespace 经济系统 {
     }
 
 ' 链接规则
-ProductionTask *-- NeededMaterial
-NeededMaterial --> MaterialUnit
 
-ProductionTask --> MaterialUnit 
-
-ProductionUnit o-- NPCUnit
-ProductionUnit o-- MaterialUnit
-ProductionUnit --> MaterialUnit
-ProductionUnit ..> RawMaterialUnit
-
-
-EconomySystem ..> MaterialUnit
-EconomySystem ..> ProductionUnit
 
 
 }
