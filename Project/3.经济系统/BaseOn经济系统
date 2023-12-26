@@ -1,0 +1,26 @@
+@startuml
+skinparam backgroundColor White 
+skinparam defaultFontName Consolas
+skinparam defaultFontSize 14
+skinparam roundCorner 10
+
+class BuildingSO extends ScriptableObject
+{
+    int ID;
+    string name;
+    string info;
+
+}
+
+class BuildingInst
+{
+
+}
+
+class BuildingData
+{
+
+}
+
+
+@enduml
