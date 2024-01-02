@@ -1,0 +1,28 @@
+@startuml
+
+'活动图
+
+group 建筑
+start 
+:是否招聘;
+:调整生产策略;
+:根据生产内容进货;
+:生产操作;
+end
+end group 
+
+group NPC
+start
+
+if (是否有工作?) then(有)
+    : 开始上班;
+else (没有)
+    : 找工作（遍历建筑）;
+endif
+
+
+
+end
+end group
+
+@enduml
